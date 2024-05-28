@@ -105,7 +105,7 @@ async function getRecipes() {
     for (let i = 0; i < RECIPE_URLS.length; i++){
       console.log(RECIPE_URLS[i]);
       try {
-        let url = await fetch(RECIPE_URLS[i]);
+        let url = await fetch(`RECIPE_URLS[i]`);
         let urlJ = await url.json();
         newRecipes.append(urlJ);
       } catch ({url, urlJ}) {
