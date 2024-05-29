@@ -86,7 +86,9 @@ async function getRecipes() {
   // A1. TODO - Check local storage to see if there are any recipes.
   //            If there are recipes, return them.
   console.log("In getRecipes");
-  const recipes = localStorage.getItem('recipes');
+  //const recipes = localStorage.getItem('recipes');
+  let recipes = JSON.parse(localStorage.getItem('recipes'));
+
   if(recipes != null){
     return recipes;
   }
@@ -101,13 +103,15 @@ async function getRecipes() {
   //            function (we call these callback functions). That function will
   //            take two parameters - resolve, and reject. These are functions
   //            you can call to either resolve the Promise or Reject it.
+  console.log(RECIPE_URLS);
+
   const myPromise = new Promise(async (resolve, reject) => {
     for (let i = 0; i < RECIPE_URLS.length; i++){
       console.log(RECIPE_URLS[i]);
       try {
-        let url = await fetch(`RECIPE_URLS[i]`);
+        let url = await fetch(RECIPE_URLS[i]);
         let urlJ = await url.json();
-        newRecipes.append(urlJ);
+        newRecipes.push(urlJ);
       } catch ({url, urlJ}) {
         console.error(url);
         reject(url);
@@ -166,6 +170,7 @@ function saveRecipesToStorage(recipes) {
 function addRecipesToDocument(recipes) {
   if (!recipes) return;
   let main = document.querySelector('main');
+  console.log(typeof(recipes));
   recipes.forEach((recipe) => {
     let recipeCard = document.createElement('recipe-card');
     recipeCard.data = recipe;
